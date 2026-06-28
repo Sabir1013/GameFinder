@@ -1,15 +1,16 @@
-import { Flex, Link, List, Text } from "@chakra-ui/react";
+import { Flex, List, Text } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react/input";
 import { InputGroup } from "@chakra-ui/react/input-group";
 import { useEffect, useRef, useState } from "react";
 import { LuSearch } from "react-icons/lu";
 import { useSearch } from "../context/useSearch";
+import { Link, useLocation } from "react-router";
 
-function Sidebar() {
+export function Sidebar() {
     const [query, setQuery] = useState("");
-    const [debouncedQuery, setDebouncedQuery] = useState("");
     const controllerRef = useRef<AbortController | null>(null);
-    const {setResults} = useSearch();
+    const {setResults, debouncedQuery, setDebouncedQuery} = useSearch();
+    const isSavedPath = useLocation().pathname === "/saved";
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -17,10 +18,10 @@ function Sidebar() {
         }, 300);
 
         return () => clearTimeout(timeout);
-    }, [query])
+    }, [query, setDebouncedQuery])
 
     useEffect(() => {
-        if (debouncedQuery.trim() === "") {
+        if (debouncedQuery.trim() === "" || isSavedPath) {
             setResults([]);
             return;
         }
@@ -39,7 +40,7 @@ function Sidebar() {
                     if (err.name !== "AbortError") console.log(err)
                 }
             );
-    }, [debouncedQuery, setResults])
+    }, [debouncedQuery, isSavedPath, setResults])
 
     return (
         <Flex as="aside" position="fixed" top={0} w="300px" bg="#001427" direction="column" textAlign="center" minH="100vh" borderRight="1px solid #619b8a" flexShrink={0} boxShadow="inset -20px 0 40px #00000066">
@@ -48,13 +49,11 @@ function Sidebar() {
                 <Input placeholder="Search games" onChange={e => setQuery(e.target.value)} borderRadius="full"/>
             </InputGroup>
             <List.Root mt="10rem" gap="2">
-                <List.Item><Link href="/">Finder</Link></List.Item>
-                <List.Item><Link href="/saved">Saved</Link></List.Item>
-                <List.Item><Link href="/about">About</Link></List.Item>
+                <List.Item><Link to="/">Finder</Link></List.Item>
+                <List.Item><Link to="/saved">Saved</Link></List.Item>
+                <List.Item><Link to="/about">About</Link></List.Item>
             </List.Root>
             <Text as="h1" mt="auto" mb="5">© 2026 Sabir Tarique</Text>
         </Flex>
     );
 }
-
-export {Sidebar};

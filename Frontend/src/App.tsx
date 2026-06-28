@@ -3,8 +3,9 @@ import { Layout } from "./Layout";
 import { ListView } from "./pages/ListView";
 import { SavedView } from "./pages/SavedView";
 import { AboutView } from "./pages/AboutView";
+import { Toaster } from "./components/ui/toaster";
 
-function App() {
+export function App() {
   return (
     <BrowserRouter>
       <Routes>
@@ -14,8 +15,7 @@ function App() {
           <Route path="/about" element={<AboutView/>}/>
         </Route>
       </Routes>
+      <Toaster/>
     </BrowserRouter>
   );
 }
-
-export {App};

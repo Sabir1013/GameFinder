@@ -16,4 +16,12 @@ export type Game = {
 export type SearchContextType = {
     results: Game[];
     setResults: React.Dispatch<React.SetStateAction<Game[]>>;
+    debouncedQuery: string;
+    setDebouncedQuery: (query: string) => void;
+};
+
+export type SavedGamesContextType = {
+    savedGames: Game[];
+    saveGame: (game: Game) => void;
+    removeGame: (id: number) => void;
 };

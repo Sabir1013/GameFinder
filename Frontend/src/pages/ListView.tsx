@@ -2,7 +2,7 @@ import { SimpleGrid } from "@chakra-ui/react";
 import { useSearch } from "../context/useSearch";
 import { GameCard } from "../components/GameCard";
 
-function ListView() {
+export function ListView() {
     const {results} = useSearch();
 
     return (
@@ -15,5 +15,3 @@ function ListView() {
         </SimpleGrid>
     );
 }
-
-export {ListView};

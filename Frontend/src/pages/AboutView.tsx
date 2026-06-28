@@ -1,5 +1,3 @@
-function AboutView() {
+export function AboutView() {
     return ("");
 }
-
-export {AboutView};

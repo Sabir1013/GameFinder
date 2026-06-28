@@ -2,7 +2,7 @@ import { Box, Dialog, Flex, Image, Text } from "@chakra-ui/react";
 import type { Game } from "../context/types";
 import { GameDialogue } from "./GameDialogue";
 
-function GameCard({game} : {game : Game}) {
+export function GameCard({game} : {game : Game}) {
     return (
         <Dialog.Root placement="center">
             <Dialog.Trigger asChild>
@@ -17,5 +17,3 @@ function GameCard({game} : {game : Game}) {
         </Dialog.Root>
     );
 }
-
-export {GameCard};

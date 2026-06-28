@@ -1,8 +1,9 @@
 import { CloseButton, Dialog, Link, Portal, Text } from "@chakra-ui/react";
 import type { Game } from "../context/types";
 import { DialogueBody } from "./DialogueBody";
+import { DialogueFooter } from "./DialogueFooter";
 
-function GameDialogue({game} : {game : Game}) {
+export function GameDialogue({game} : {game : Game}) {
     return(
         <Portal>
             <Dialog.Backdrop/>
@@ -14,6 +15,7 @@ function GameDialogue({game} : {game : Game}) {
                     <Dialog.Body display="flex" pt="5" gap="50px" alignItems="center" >
                         <DialogueBody game={game}/>
                     </Dialog.Body>
+                    <DialogueFooter game={game}/>
                     <Dialog.CloseTrigger asChild>
                         <CloseButton/>
                     </Dialog.CloseTrigger>
@@ -22,5 +24,3 @@ function GameDialogue({game} : {game : Game}) {
         </Portal>
     );
 }
-
-export {GameDialogue};

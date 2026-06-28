@@ -4,9 +4,10 @@ import type { Game } from "./types";
 
 export function SearchProvider({ children }: { children: React.ReactNode }) {
     const [results, setResults] = useState<Game[]>([]);
+    const [debouncedQuery, setDebouncedQuery] = useState("");
 
     return (
-        <SearchContext.Provider value={{ results, setResults }}>
+        <SearchContext.Provider value={{ results, setResults, debouncedQuery, setDebouncedQuery }}>
             {children}
         </SearchContext.Provider>
     );
