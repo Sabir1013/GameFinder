@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Main<twitchbackend>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.sabir.twitchbackend.Main",
+            "projectName": "twitchbackend",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
