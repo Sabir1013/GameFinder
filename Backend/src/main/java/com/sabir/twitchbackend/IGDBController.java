@@ -20,4 +20,9 @@ public class IGDBController {
     public String searchGames(@RequestParam String query) {
         return requester.getGames(query);
     }
+
+    @GetMapping("/randomize")
+    public String searchRandomGames() {
+        return requester.getRandomGames();
+    }
 }

@@ -1,9 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Game } from "./types";
 import { SavedGamesContext } from "./SavedGamesContext";
 
 export function SavedGamesProvider({ children }: { children: React.ReactNode }) {
-    const [savedGames, setSavedGames] = useState<Game[]>([]);
+    const [savedGames, setSavedGames] = useState<Game[]>(
+        () => {
+            const stored = localStorage.getItem("savedGames");
+            return stored ? JSON.parse(stored) : [];
+        }
+    );
+
+    useEffect(
+        () => {
+            localStorage.setItem("savedGames", JSON.stringify(savedGames));
+        }, [savedGames]
+    );
 
     function saveGame(game: Game) {
         setSavedGames(current => {

@@ -14,9 +14,12 @@ import org.springframework.web.client.RestTemplate;
 public class IGDBService {
     private final AuthService twitchService;
     private  RestTemplate APICaller;
+    private final String endpoint;
 
     public IGDBService(AuthService twitchService) {
         this.twitchService = twitchService;
+
+        endpoint = "https://api.igdb.com/v4/games";
 
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
         cm.setMaxTotal(20);
@@ -37,11 +40,18 @@ public class IGDBService {
     }
 
     public String getGames(String query) {
-        final String url = "https://api.igdb.com/v4/games";
-        String body = String.format("fields name, platforms, first_release_date, screenshots.url, game_type, cover.url, franchise.name, rating, summary, storyline; search \"%s\"; where game_type = 0 & cover.url != null; limit 50;", query);
+        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; search \"%s\"; where game_type = 0 & cover.url != null; limit 50;", query);
         HttpEntity<String> request = new HttpEntity<String>(body, getHeaders());
         
-        String response = APICaller.exchange(url, HttpMethod.POST, request, String.class).getBody();
+        String response = APICaller.exchange(endpoint, HttpMethod.POST, request, String.class).getBody();
+        return response;
+    }
+
+    public String getRandomGames() {
+        String body = "fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; where game_type = 0 & cover.url != null; limit 50;";
+        HttpEntity<String> request = new HttpEntity<String>(body, getHeaders());
+        
+        String response = APICaller.exchange(endpoint, HttpMethod.POST, request, String.class).getBody();
         return response;
     }
 }

@@ -11,7 +11,7 @@ export function DialogueFooter({game} : {game : Game}) {
 
     return (
         <Dialog.Footer>
-            <Button colorPalette="teal" onClick={() => isSaved ? (removeGame(game.id), toaster.dismiss(), toaster.create({description: "Game is already saved!", duration: 2000, type: "info"})) : (saveGame(game), toaster.dismiss(), toaster.create({description: "Game saved!", duration: 2000, type: "info"}))}>
+            <Button colorPalette="teal" onClick={() => isSaved ? (removeGame(game.id), toaster.dismiss(), toaster.create({description: "Game removed.", duration: 2000, type: "info"})) : (saveGame(game), toaster.dismiss(), toaster.create({description: "Game saved!", duration: 2000, type: "info"}))}>
                 {isSaved ? <>Game Saved <FiCheck/></> : "Save Game"} 
             </Button>
         </Dialog.Footer>
