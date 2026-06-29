@@ -1,7 +1,7 @@
 import { CloseButton, Flex, IconButton, List, Text } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react/input";
 import { InputGroup } from "@chakra-ui/react/input-group";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { LuSearch } from "react-icons/lu";
 import { useSearch } from "../context/useSearch";
 import { Link, useLocation } from "react-router";
@@ -12,6 +12,23 @@ export function Sidebar() {
     const controllerRef = useRef<AbortController | null>(null);
     const {setResults, debouncedQuery, setDebouncedQuery} = useSearch();
     const isSavedPath = useLocation().pathname === "/saved";
+
+    const fetchData = useCallback((endpoint : string) => {
+        if (controllerRef.current) controllerRef.current.abort(); 
+
+        controllerRef.current = new AbortController();
+
+        fetch(endpoint,{
+            signal : controllerRef.current.signal
+        })
+        .then(res => res.json())
+        .then(jres => setResults(jres))
+        .catch(
+            err => {
+                if (err.name !== "AbortError") console.log(err)
+            }
+        );
+    }, [setResults])
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -27,21 +44,10 @@ export function Sidebar() {
             return;
         }
 
-        if (controllerRef.current) controllerRef.current.abort(); 
-
-        controllerRef.current = new AbortController();
-
-        fetch(`http://localhost:8080/api/igdb/search?query=${encodeURIComponent(debouncedQuery)}`,{
-            signal : controllerRef.current.signal
-        })
-            .then(res => res.json())
-            .then(jres => setResults(jres))
-            .catch(
-                err => {
-                    if (err.name !== "AbortError") console.log(err)
-                }
-            );
-    }, [debouncedQuery, isSavedPath, setResults])
+        fetchData(
+        `http://localhost:8080/api/igdb/search?query=${encodeURIComponent(debouncedQuery)}`
+        );
+    }, [debouncedQuery, fetchData, isSavedPath, setResults])
 
     const inputEndElem = query ? (
         <CloseButton size="xs" onClick={() => setQuery("")}  bg="transparent"/>
@@ -54,7 +60,7 @@ export function Sidebar() {
                 <InputGroup startElement={<LuSearch/>} endElement={inputEndElem} mr="5">
                     <Input placeholder="Search games" value={query} onChange={e => setQuery(e.target.value)} borderRadius="full"/>
                 </InputGroup>
-                <IconButton size="xs" bg="#619b8a"><FaRandom/></IconButton>
+                <IconButton size="xs" bg="#619b8a" onClick={() => (fetchData(`http://localhost:8080/api/igdb/randomize`), setQuery(""), setDebouncedQuery(""))}><FaRandom/></IconButton>
             </Flex>
             <List.Root mt="10rem" gap="2">
                 <List.Item><Link to="/">Finder</Link></List.Item>

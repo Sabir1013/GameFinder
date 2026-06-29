@@ -1,5 +1,7 @@
 package com.sabir.twitchbackend;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
@@ -16,14 +18,17 @@ public class IGDBService {
     private  RestTemplate APICaller;
     private final String endpoint;
 
+    private static final int MAX_GAMES = 263373;
+    private static final int LIMIT = 50;
+
     public IGDBService(AuthService twitchService) {
         this.twitchService = twitchService;
 
         endpoint = "https://api.igdb.com/v4/games";
 
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-        cm.setMaxTotal(20);
-        cm.setDefaultMaxPerRoute(20);
+        cm.setMaxTotal(5);
+        cm.setDefaultMaxPerRoute(5);
 
         CloseableHttpClient client = HttpClients.custom().setConnectionManager(cm).build();
 
@@ -40,7 +45,7 @@ public class IGDBService {
     }
 
     public String getGames(String query) {
-        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; search \"%s\"; where game_type = 0 & cover.url != null; limit 50;", query);
+        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; search \"%s\"; where game_type = 0 & cover.url != null; limit %d;", query, LIMIT);
         HttpEntity<String> request = new HttpEntity<String>(body, getHeaders());
         
         String response = APICaller.exchange(endpoint, HttpMethod.POST, request, String.class).getBody();
@@ -48,7 +53,9 @@ public class IGDBService {
     }
 
     public String getRandomGames() {
-        String body = "fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; where game_type = 0 & cover.url != null; limit 50;";
+        int offset = ThreadLocalRandom.current().nextInt((MAX_GAMES - LIMIT) + 1);
+
+        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; where game_type = 0 & cover.url != null; limit %d; offset %d;", LIMIT, offset);
         HttpEntity<String> request = new HttpEntity<String>(body, getHeaders());
         
         String response = APICaller.exchange(endpoint, HttpMethod.POST, request, String.class).getBody();
