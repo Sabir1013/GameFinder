@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react/button";
 import { Dialog } from "@chakra-ui/react/dialog";
-import type { Game } from "../context/types";
-import { useSavedGames } from "../context/useSavedGames";;
+import type { Game } from "../types";
+import { useSavedGames } from "../hooks/useSavedGames";;
 import { FiCheck } from "react-icons/fi";
 import { toaster } from "./ui/toaster";
 

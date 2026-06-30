@@ -1,6 +1,6 @@
 import { Carousel, IconButton, Image, Text, VStack, List} from "@chakra-ui/react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
-import type { Game } from "../context/types";
+import type { Game } from "../types";
 
 export function DialogueBody({game} : {game : Game}) {
     const screenshots = game.screenshots ?? [];

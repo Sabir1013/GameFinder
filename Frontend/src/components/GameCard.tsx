@@ -1,5 +1,5 @@
 import { Box, Dialog, Flex, Image, Text } from "@chakra-ui/react";
-import type { Game } from "../context/types";
+import type { Game } from "../types";
 import { GameDialogue } from "./GameDialogue";
 
 export function GameCard({game} : {game : Game}) {

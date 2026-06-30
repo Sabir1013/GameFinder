@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Game } from "./types";
+import type { Game } from "../types";
 import { SavedGamesContext } from "./SavedGamesContext";
 
 export function SavedGamesProvider({ children }: { children: React.ReactNode }) {

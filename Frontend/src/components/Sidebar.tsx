@@ -3,7 +3,7 @@ import { Input } from "@chakra-ui/react/input";
 import { InputGroup } from "@chakra-ui/react/input-group";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LuSearch } from "react-icons/lu";
-import { useSearch } from "../context/useSearch";
+import { useSearch } from "../hooks/useSearch";
 import { Link, useLocation } from "react-router";
 import { FaRandom } from "react-icons/fa";
 

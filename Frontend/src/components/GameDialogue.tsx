@@ -1,5 +1,5 @@
 import { CloseButton, Dialog, Link, Portal, Text } from "@chakra-ui/react";
-import type { Game } from "../context/types";
+import type { Game } from "../types";
 import { DialogueBody } from "./DialogueBody";
 import { DialogueFooter } from "./DialogueFooter";
 

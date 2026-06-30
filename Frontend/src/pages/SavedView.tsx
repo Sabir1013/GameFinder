@@ -1,7 +1,7 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import { GameCard } from "../components/GameCard";
-import { useSavedGames } from "../context/useSavedGames";
-import { useSearch } from "../context/useSearch";
+import { useSavedGames } from "../hooks/useSavedGames";
+import { useSearch } from "../hooks/useSearch";
 import Fuse from "fuse.js";
 
 export function SavedView() {
