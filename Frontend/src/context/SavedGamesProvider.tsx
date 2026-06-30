@@ -22,7 +22,7 @@ export function SavedGamesProvider({ children }: { children: React.ReactNode }) 
                 return current;
             }
 
-            return [...current, game];
+            return [game, ...current];
         });
     }
 

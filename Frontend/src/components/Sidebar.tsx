@@ -59,11 +59,11 @@ export function Sidebar() {
                 <InputGroup startElement={<LuSearch/>} endElement={inputEndElem} mr="5">
                     <Input placeholder="Search games" value={query} onChange={e => setQuery(e.target.value)} borderRadius="full" name="queryBox"/>
                 </InputGroup>
-                <IconButton size="xs" bg="#619b8a" onClick={() => (fetchData(`http://localhost:8080/api/igdb/randomize`), setQuery(""))}><FaRandom/></IconButton>
+                <IconButton disabled={location.pathname != "/"}size="xs" bg="#619b8a" onClick={() => (fetchData(`http://localhost:8080/api/igdb/randomize`), setQuery(""))}><FaRandom/></IconButton>
             </Flex>
             <List.Root mt="10rem" gap="2">
                 <List.Item><Link to="/">Finder</Link></List.Item>
-                <List.Item><Link to="/saved">Saved</Link></List.Item>
+                <List.Item><Link to="/saved" onClick={() => setQuery("")}>Saved</Link></List.Item>
                 <List.Item><Link to="/about">About</Link></List.Item>
             </List.Root>
             <Text as="h1" mt="auto" mb="5">© 2026 Sabir Tarique</Text>
