@@ -1,17 +1,16 @@
 import { CloseButton, Flex, IconButton, List, Text } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react/input";
 import { InputGroup } from "@chakra-ui/react/input-group";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { LuSearch } from "react-icons/lu";
 import { useSearch } from "../hooks/useSearch";
 import { Link, useLocation } from "react-router";
 import { FaRandom } from "react-icons/fa";
 
 export function Sidebar() {
-    const [query, setQuery] = useState("");
     const controllerRef = useRef<AbortController | null>(null);
-    const {setResults, debouncedQuery, setDebouncedQuery} = useSearch();
-    const isSavedPath = useLocation().pathname === "/saved";
+    const {setResults, debouncedQuery, setDebouncedQuery, query, setQuery} = useSearch();
+    const location = useLocation();
 
     const fetchData = useCallback((endpoint : string) => {
         if (controllerRef.current) controllerRef.current.abort(); 
@@ -39,7 +38,7 @@ export function Sidebar() {
     }, [query, setDebouncedQuery])
 
     useEffect(() => {
-        if (debouncedQuery.trim() === "" || isSavedPath) {
+        if (query.trim() === "" || location.pathname != "/") {
             setResults([]);
             return;
         }
@@ -47,7 +46,7 @@ export function Sidebar() {
         fetchData(
         `http://localhost:8080/api/igdb/search?query=${encodeURIComponent(debouncedQuery)}`
         );
-    }, [debouncedQuery, fetchData, isSavedPath, setResults])
+    }, [query, fetchData, setResults, debouncedQuery, location.pathname])
 
     const inputEndElem = query ? (
         <CloseButton size="xs" onClick={() => setQuery("")}  bg="transparent"/>
@@ -58,9 +57,9 @@ export function Sidebar() {
             <Text as="h1" mt="10" fontWeight="bold" fontSize="2xl">Game Finder</Text>
             <Flex direction="row" justifyContent="center" alignItems="center" mt="10" pr="5" pl="5">
                 <InputGroup startElement={<LuSearch/>} endElement={inputEndElem} mr="5">
-                    <Input placeholder="Search games" value={query} onChange={e => setQuery(e.target.value)} borderRadius="full"/>
+                    <Input placeholder="Search games" value={query} onChange={e => setQuery(e.target.value)} borderRadius="full" name="queryBox"/>
                 </InputGroup>
-                <IconButton size="xs" bg="#619b8a" onClick={() => (fetchData(`http://localhost:8080/api/igdb/randomize`), setQuery(""), setDebouncedQuery(""))}><FaRandom/></IconButton>
+                <IconButton size="xs" bg="#619b8a" onClick={() => (fetchData(`http://localhost:8080/api/igdb/randomize`), setQuery(""))}><FaRandom/></IconButton>
             </Flex>
             <List.Root mt="10rem" gap="2">
                 <List.Item><Link to="/">Finder</Link></List.Item>
