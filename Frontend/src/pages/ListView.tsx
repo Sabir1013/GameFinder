@@ -1,6 +1,6 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import { useSearch } from "../hooks/useSearch";
 import { GameCard } from "../components/GameCard";
+import { useSearch } from "../hooks/useSearch";
 
 export function ListView() {
     const {results} = useSearch();

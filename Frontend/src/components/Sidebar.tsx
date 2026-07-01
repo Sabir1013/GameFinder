@@ -1,55 +1,17 @@
 import { CloseButton, Flex, IconButton, List, Text } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react/input";
 import { InputGroup } from "@chakra-ui/react/input-group";
-import { useCallback, useEffect, useRef } from "react";
 import { LuSearch } from "react-icons/lu";
-import { useSearch } from "../hooks/useSearch";
-import { Link, useLocation } from "react-router";
+import { Link } from "react-router";
 import { FaRandom } from "react-icons/fa";
+import { useSearch } from "../hooks/useSearch";
 
 export function Sidebar() {
-    const controllerRef = useRef<AbortController | null>(null);
-    const {setResults, debouncedQuery, setDebouncedQuery, query, setQuery} = useSearch();
-    const location = useLocation();
-
-    const fetchData = useCallback((endpoint : string) => {
-        if (controllerRef.current) controllerRef.current.abort(); 
-
-        controllerRef.current = new AbortController();
-
-        fetch(endpoint,{
-            signal : controllerRef.current.signal
-        })
-        .then(res => res.json())
-        .then(jres => setResults(jres))
-        .catch(
-            err => {
-                if (err.name !== "AbortError") console.log(err)
-            }
-        );
-    }, [setResults])
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setDebouncedQuery(query);
-        }, 300);
-
-        return () => clearTimeout(timeout);
-    }, [query, setDebouncedQuery])
-
-    useEffect(() => {
-        if (query.trim() === "" || location.pathname != "/") {
-            setResults([]);
-            return;
-        }
-
-        fetchData(
-        `http://localhost:8080/api/igdb/search?query=${encodeURIComponent(debouncedQuery)}`
-        );
-    }, [query, fetchData, setResults, debouncedQuery, location.pathname])
+    
+    const {query, setQuery, setResults, fetchData} = useSearch();
 
     const inputEndElem = query ? (
-        <CloseButton size="xs" onClick={() => setQuery("")}  bg="transparent"/>
+        <CloseButton size="xs" onClick={() => (setQuery(""), setResults([]))}  bg="transparent"/>
     ) : undefined;
 
     return (
@@ -59,12 +21,12 @@ export function Sidebar() {
                 <InputGroup startElement={<LuSearch/>} endElement={inputEndElem} mr="5">
                     <Input placeholder="Search games" value={query} onChange={e => setQuery(e.target.value)} borderRadius="full" name="queryBox"/>
                 </InputGroup>
-                <IconButton disabled={location.pathname != "/"}size="xs" bg="#619b8a" onClick={() => (fetchData(`http://localhost:8080/api/igdb/randomize`), setQuery(""))}><FaRandom/></IconButton>
+                <IconButton disabled={location.pathname != "/"}size="xs" bg="#619b8a" onClick={() => (setQuery(""), fetchData(`http://localhost:8080/api/igdb/randomize`))}><FaRandom/></IconButton>
             </Flex>
             <List.Root mt="10rem" gap="2">
-                <List.Item><Link to="/">Finder</Link></List.Item>
-                <List.Item><Link to="/saved" onClick={() => setQuery("")}>Saved</Link></List.Item>
-                <List.Item><Link to="/about">About</Link></List.Item>
+                <List.Item><Link to="/" >Finder</Link></List.Item>
+                <List.Item><Link to="/saved" >Saved</Link></List.Item>
+                <List.Item><Link to="/about" >About</Link></List.Item>
             </List.Root>
             <Text as="h1" mt="auto" mb="5">© 2026 Sabir Tarique</Text>
         </Flex>

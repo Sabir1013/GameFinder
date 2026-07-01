@@ -20,6 +20,7 @@ export type SearchContextType = {
     setDebouncedQuery: (query: string) => void;
     query: string;
     setQuery: (query : string) => void;
+    fetchData: (endpoint: string) => void;
 };
 
 export type SavedGamesContextType = {

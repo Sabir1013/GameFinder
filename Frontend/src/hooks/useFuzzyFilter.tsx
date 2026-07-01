@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import react from "react";
 import { useSavedGames } from "./useSavedGames";
 import { useSearch } from "./useSearch";
 import Fuse from "fuse.js";
@@ -8,7 +8,7 @@ export function useFuzzyFilter() {
     const {savedGames} = useSavedGames();
     const {query, debouncedQuery} = useSearch();
 
-    const filteredGames = useMemo(
+    const filteredGames = react.useMemo(
         () => {
             if (query === "") {
                 return savedGames;
