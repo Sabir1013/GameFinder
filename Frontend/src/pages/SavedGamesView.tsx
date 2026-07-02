@@ -10,7 +10,7 @@ export function SavedGamesView() {
             <SimpleGrid columns={4} gap="50px">
                 {displayedGames.map(game => <GameCard game={game} key={game.id} />)}
             </SimpleGrid>
-            {displayedGames.length !== 0 && (
+            {(displayedGames.length !== 0 && (page > 1 || hasNextPage)) && (
                 <HStack colorPalette="teal" mt="50px" w="100%" justifyContent="space-between">
                     <Button onClick={() => setPage(p => p - 1)} visibility={page > 1 ? "visible" : "hidden"}>
                         Prev

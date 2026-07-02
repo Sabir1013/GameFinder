@@ -1,6 +1,7 @@
 import { Carousel, IconButton, Image, Text, VStack, List} from "@chakra-ui/react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import type { Game } from "../types";
+import "@fontsource-variable/ibm-plex-sans";
 
 export function DialogueBody({game} : {game : Game}) {
     const screenshots = game.screenshots ?? [];
@@ -8,7 +9,7 @@ export function DialogueBody({game} : {game : Game}) {
     return (
         <>
             <VStack alignItems="flex-start">
-                <List.Root gap="2">
+                <List.Root gap="2" fontFamily="IBM Plex Sans Variable">
                     <List.Item>
                         <Text><strong>Release Date:</strong> {new Date(game.first_release_date * 1000).toLocaleDateString()}</Text>
                     </List.Item>

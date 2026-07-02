@@ -11,11 +11,11 @@ export function FinderView() {
     }, [page]);
 
     return (
-        <VStack ml="300px" width="100vw" padding={10} bg="#0a0908">
+        <VStack ml="300px" width="100vw" height="100%" padding={10} bgImage="radial-gradient(circle at center, #1a1714 30%, #0a0908 60%">
             <SimpleGrid columns={4} gap="50px">
                 {displayedResults.map(game => <GameCard game={game} key={game.id} />)}
             </SimpleGrid>
-            {displayedResults.length !== 0 && (
+            {(displayedResults.length !== 0 && (page > 1 || hasNextPage)) && (
                 <HStack colorPalette="teal" mt="50px" w="100%" justifyContent="space-between">
                     <Button
                         onClick={() => setPage((p) => p - 1)}
