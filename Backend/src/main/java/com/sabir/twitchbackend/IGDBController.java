@@ -17,8 +17,8 @@ public class IGDBController {
     }
 
     @GetMapping("/search")
-    public String searchGames(@RequestParam String query) {
-        return requester.getGames(query);
+    public String searchGames(@RequestParam String query, @RequestParam int page) {
+        return requester.getGames(query, page);
     }
 
     @GetMapping("/randomize")

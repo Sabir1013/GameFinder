@@ -21,7 +21,6 @@ export function SavedGamesProvider({ children }: { children: React.ReactNode }) 
             if (current.some(g => g.id === game.id)) {
                 return current;
             }
-
             return [game, ...current];
         });
     }

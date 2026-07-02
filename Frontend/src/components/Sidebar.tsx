@@ -19,7 +19,7 @@ export function Sidebar() {
             <Text as="h1" mt="10" fontWeight="bold" fontSize="2xl">Game Finder</Text>
             <Flex direction="row" justifyContent="center" alignItems="center" mt="10" pr="5" pl="5">
                 <InputGroup startElement={<LuSearch/>} endElement={inputEndElem} mr="5">
-                    <Input placeholder="Search games" value={query} onChange={e => setQuery(e.target.value)} borderRadius="full" name="queryBox"/>
+                    <Input placeholder="Search games" value={query} onChange={e => setQuery(e.target.value)} borderRadius="full" name="queryBox" autoComplete="off"/>
                 </InputGroup>
                 <IconButton disabled={location.pathname != "/"}size="xs" bg="#619b8a" onClick={() => (setQuery(""), fetchData(`http://localhost:8080/api/igdb/randomize`))}><FaRandom/></IconButton>
             </Flex>

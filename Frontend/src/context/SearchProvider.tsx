@@ -1,13 +1,28 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SearchContext } from "./SearchContext";
 import type { Game } from "../types";
+import { useLocation } from "react-router";
 
 export function SearchProvider({ children }: { children: React.ReactNode }) {
     const [results, setResults] = useState<Game[]>([]);
     const [debouncedQuery, setDebouncedQuery] = useState("");
     const [query, setQuery] = useState("");
     const controllerRef = useRef<AbortController | null>(null);
+    const [page, setPage] = useState(1);
+    const location = useLocation();
 
+    const [prevLocation, setPrevLocation] = useState(location.pathname)
+    if (location.pathname !== prevLocation) {
+        setPrevLocation(location.pathname)
+        setQuery("");
+        setResults([]);
+    }
+
+    const [prevQuery, setPrevQuery] = useState(query);
+    if (query !== prevQuery) {
+        setPrevQuery(query);
+        setPage(1);
+    }
 
     const fetchData = useCallback(async (endpoint: string) => {
         if (controllerRef.current) controllerRef.current.abort();
@@ -22,22 +37,22 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     useEffect(() => {
-        if (query.trim() === "") return;
         const timeout = setTimeout(() => setDebouncedQuery(query), 300);
         return () => clearTimeout(timeout);
     }, [query]);
 
-    // fetch on debounced query
     useEffect(() => {
-        if (debouncedQuery.trim() === "") {
-            controllerRef.current?.abort();
+        if (query.trim() === "") {
             return;
         }
-        fetchData(`http://localhost:8080/api/igdb/search?query=${encodeURIComponent(debouncedQuery)}`);
-    }, [debouncedQuery, fetchData]);
+        fetchData(`http://localhost:8080/api/igdb/search?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
+    }, [query, fetchData, page, debouncedQuery]);
+
+    const hasNextPage = results.length === 25;
+    const displayedResults = results.slice(0, 24);
 
     return (
-        <SearchContext.Provider value={{ results, setResults, debouncedQuery, setDebouncedQuery, query, setQuery, fetchData }}>
+        <SearchContext.Provider value={{ results, displayedResults, setResults, debouncedQuery, setDebouncedQuery, query, setQuery, fetchData, page, setPage, hasNextPage }}>
             {children}
         </SearchContext.Provider>
     );

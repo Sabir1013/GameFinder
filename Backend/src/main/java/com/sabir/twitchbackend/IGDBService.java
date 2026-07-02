@@ -19,7 +19,7 @@ public class IGDBService {
     private final String endpoint;
 
     private static final int MAX_GAMES = 263373;
-    private static final int LIMIT = 50;
+    private static final int LIMIT = 25;
 
     public IGDBService(AuthService twitchService) {
         this.twitchService = twitchService;
@@ -44,8 +44,10 @@ public class IGDBService {
         return headers;
     }
 
-    public String getGames(String query) {
-        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; search \"%s\"; where game_type = 0 & cover.url != null; limit %d;", query, LIMIT);
+    public String getGames(String query, int page) {
+        int offset = (page - 1) * LIMIT;
+
+        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; search \"%s\"; where game_type = 0 & cover.url != null; limit %d; offset %d;", query, LIMIT, offset);
         HttpEntity<String> request = new HttpEntity<String>(body, getHeaders());
         
         String response = APICaller.exchange(endpoint, HttpMethod.POST, request, String.class).getBody();
@@ -55,7 +57,7 @@ public class IGDBService {
     public String getRandomGames() {
         int offset = ThreadLocalRandom.current().nextInt((MAX_GAMES - LIMIT) + 1);
 
-        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; where game_type = 0 & cover.url != null; limit %d; offset %d;", LIMIT, offset);
+        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; where game_type = 0 & cover.url != null; limit %d; offset %d;", 24, offset);
         HttpEntity<String> request = new HttpEntity<String>(body, getHeaders());
         
         String response = APICaller.exchange(endpoint, HttpMethod.POST, request, String.class).getBody();
