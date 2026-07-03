@@ -1,9 +1,14 @@
 import { VStack, SimpleGrid, HStack, Button } from "@chakra-ui/react";
 import { GameCard } from "../components/GameCard";
 import { useFuzzyFilter } from "../hooks/useFuzzyFilter";
+import { useEffect } from "react";
 
 export function SavedGamesView() {
     const { displayedGames, page, setPage, hasNextPage } = useFuzzyFilter();
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, [page]);
 
     return (
         <VStack ml="300px" width="100vw" padding={10} bg="#0a0908">

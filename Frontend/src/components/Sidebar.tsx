@@ -2,7 +2,7 @@ import { CloseButton, Flex, IconButton, List, Text } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react/input";
 import { InputGroup } from "@chakra-ui/react/input-group";
 import { LuSearch } from "react-icons/lu";
-import { Link as RouterLink } from "react-router";
+import { Link as RouterLink, useLocation } from "react-router";
 import { Link } from "@chakra-ui/react";
 import { FaRandom } from "react-icons/fa";
 import { useSearch } from "../hooks/useSearch";
@@ -10,8 +10,8 @@ import "@fontsource/ibm-plex-mono";
 import "@fontsource-variable/ibm-plex-sans";
 
 export function Sidebar() {
-
   const { query, setQuery, setResults, fetchData } = useSearch();
+  const location = useLocation();
 
   const inputEndElem = query ? (
     <CloseButton size="xs" onClick={() => (setQuery(""), setResults([]))} bg="transparent" />
@@ -22,7 +22,7 @@ export function Sidebar() {
       <Text as="h1" mt="10" fontWeight="bold" fontSize="2xl" textShadow="0px 0px 5px teal, 0px 0px 10px teal, 0px 0px 15px teal" fontFamily="IBM Plex Mono">Game Finder</Text>
       <Flex direction="row" justifyContent="center" alignItems="center" mt="10" pr="5" pl="5">
         <InputGroup startElement={<LuSearch />} endElement={inputEndElem} mr="5">
-          <Input placeholder="Search games" value={query} onChange={e => setQuery(e.target.value)} borderRadius="full" name="queryBox" autoComplete="off" fontFamily="IBM Plex Sans Variable" />
+          <Input placeholder="Search games" value={query} onChange={e => setQuery(e.target.value)} borderRadius="full" name="queryBox" autoComplete="off" fontFamily="IBM Plex Sans Variable" disabled={location.pathname === "/about"}/>
         </InputGroup>
         <IconButton disabled={location.pathname != "/"} size="xs" bg="#619b8a" onClick={() => (setQuery(""), fetchData(`http://localhost:8080/api/igdb/randomize`))}><FaRandom /></IconButton>
       </Flex>

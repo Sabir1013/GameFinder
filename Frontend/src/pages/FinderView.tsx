@@ -11,7 +11,7 @@ export function FinderView() {
     }, [page]);
 
     return (
-        <VStack ml="300px" width="100vw" height="100%" padding={10} bgImage="radial-gradient(circle at center, #1a1714 30%, #0a0908 60%">
+        <VStack ml="300px" width="100vw" minHeight="100vh" padding={10} bg="#0a0908">
             <SimpleGrid columns={4} gap="50px">
                 {displayedResults.map(game => <GameCard game={game} key={game.id} />)}
             </SimpleGrid>
