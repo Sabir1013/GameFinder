@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -44,6 +45,7 @@ public class IGDBService {
         return headers;
     }
 
+    @Cacheable(value = "games", key = "#query + '-' + #page")
     public String getGames(String query, int page) {
         int offset = (page - 1) * LIMIT;
 
