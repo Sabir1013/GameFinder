@@ -22,6 +22,9 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     if (query !== prevQuery) {
         setPrevQuery(query);
         setPage(1);
+        if (query.trim() === "") {
+            setResults([]);
+        }
     }
 
     const fetchData = useCallback(async (endpoint: string) => {
@@ -30,7 +33,11 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         try {
             const res = await fetch(endpoint, { signal: controllerRef.current.signal });
             const jres = await res.json();
-            setResults(jres);
+            if (Array.isArray(jres)) {
+                setResults(jres);
+            } else {
+                setResults(jres.content);
+            }
         } catch (err) {
             if ((err as Error).name !== "AbortError") console.log(err);
         }
@@ -45,7 +52,8 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         if (query.trim() === "") {
             return;
         }
-        fetchData(`http://localhost:8080/api/igdb/search?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
+        
+        fetchData(`http://localhost:8080/api/games/search?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
     }, [query, fetchData, page, debouncedQuery]);
 
     const hasNextPage = results.length === 25;

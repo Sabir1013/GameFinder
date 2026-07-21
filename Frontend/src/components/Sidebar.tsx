@@ -24,7 +24,7 @@ export function Sidebar() {
         <InputGroup startElement={<LuSearch />} endElement={inputEndElem} mr="5">
           <Input placeholder="Search games" value={query} onChange={e => setQuery(e.target.value)} borderRadius="full" name="queryBox" autoComplete="off" fontFamily="IBM Plex Sans Variable" disabled={location.pathname === "/about"}/>
         </InputGroup>
-        <IconButton disabled={location.pathname != "/"} size="xs" bg="#619b8a" onClick={() => (setQuery(""), fetchData(`http://localhost:8080/api/igdb/randomize`))}><FaRandom /></IconButton>
+        <IconButton disabled={location.pathname != "/"} size="xs" bg="#619b8a" onClick={() => (setQuery(""), fetchData(`http://localhost:8080/api/games/randomize`))}><FaRandom /></IconButton>
       </Flex>
       <List.Root mt="10rem" gap="2" fontFamily="IBM Plex Mono">
         <List.Item>

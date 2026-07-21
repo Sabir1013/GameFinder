@@ -3,11 +3,9 @@ export type Game = {
     name: string;
     summary: string;
     storyline: string;
-    first_release_date: number;
+    releaseDate: number;
     rating: number;
-    cover: {
-        url: string;
-    }
+    coverUrl: string;
     screenshots: {
         url: string;
     }[]
