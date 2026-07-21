@@ -27,6 +27,13 @@ export type SearchContextType = {
 
 export type SavedGamesContextType = {
     savedGames: Game[];
+    displayedGames: Game[];
+    savedQuery: string;
+    setSavedQuery: React.Dispatch<React.SetStateAction<string>>;
     saveGame: (game: Game) => void;
+    pageCount: number;
+    page: number;
+    setPage: React.Dispatch<React.SetStateAction<number>>;
+    hasNextPage: boolean;
     removeGame: (id: number) => void;
 };

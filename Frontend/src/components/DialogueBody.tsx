@@ -11,7 +11,7 @@ export function DialogueBody({game} : {game : Game}) {
             <VStack alignItems="flex-start">
                 <List.Root gap="2" fontFamily="IBM Plex Sans Variable">
                     <List.Item>
-                        <Text><strong>Release Date:</strong> {new Date(game.first_release_date * 1000).toLocaleDateString()}</Text>
+                        <Text><strong>Release Date:</strong> {new Date(game.releaseDate * 1000).toLocaleDateString()}</Text>
                     </List.Item>
                     <List.Item>
                         <Text><strong>Current Rating:</strong> {game.rating ? Math.round(game.rating) : "No rating available."}</Text>

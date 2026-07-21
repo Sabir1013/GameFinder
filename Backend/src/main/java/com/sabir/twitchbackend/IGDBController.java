@@ -29,7 +29,7 @@ public class IGDBController {
     @GetMapping("/search")
     public Page<Game> searchGames(@RequestParam String query, @RequestParam int page) {
         Pageable pageable = PageRequest.of(page - 1, 25);
-        return repository.findByNameContainingIgnoreCaseOrderByNameAsc(query, pageable);
+        return repository.searchGames(query, pageable);
     }
 
     @GetMapping("/randomize")

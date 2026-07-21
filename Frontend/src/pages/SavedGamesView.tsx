@@ -1,10 +1,11 @@
 import { VStack, SimpleGrid, HStack, Button } from "@chakra-ui/react";
 import { GameCard } from "../components/GameCard";
-import { useFuzzyFilter } from "../hooks/useFuzzyFilter";
 import { useEffect } from "react";
+import { useSavedGames } from "../hooks/useSavedGames";
 
 export function SavedGamesView() {
-    const { displayedGames, page, setPage, hasNextPage } = useFuzzyFilter();
+    //const { displayedGames, page, setPage, hasNextPage } = useFuzzyFilter();
+    const {displayedGames, page, setPage, hasNextPage} = useSavedGames();
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
