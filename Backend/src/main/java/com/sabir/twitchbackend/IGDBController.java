@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pgvector.PGvector;
+import com.sabir.twitchbackend.ai.AIService;
 import com.sabir.twitchbackend.game.Game;
 import com.sabir.twitchbackend.game.GameImporter;
 
@@ -20,16 +22,19 @@ import com.sabir.twitchbackend.game.GameImporter;
 public class IGDBController {
     private final GameImporter importer;
     private final GameRepository repository;
+    private final AIService aiService;
 
-    public IGDBController(IGDBService requester, GameImporter importer, GameRepository repository) {
+    public IGDBController(IGDBService requester, GameImporter importer, GameRepository repository, AIService aiService) {
         this.importer = importer;
         this.repository = repository;
+        this.aiService = aiService;
     }
 
     @GetMapping("/search")
     public Page<Game> searchGames(@RequestParam String query, @RequestParam int page) {
         Pageable pageable = PageRequest.of(page - 1, 25);
-        return repository.searchGames(query, pageable);
+        PGvector embedding = aiService.getEmbedding(query);
+        return repository.searchGames(query, embedding.toString(), pageable);
     }
 
     @GetMapping("/randomize")
