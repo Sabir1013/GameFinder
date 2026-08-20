@@ -53,7 +53,7 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
             return;
         }
         
-        fetchData(`http://localhost:8080/api/games/search?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
+        fetchData(`/api/games/search?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
     }, [query, fetchData, page, debouncedQuery]);
 
     const hasNextPage = results.length === 25;
