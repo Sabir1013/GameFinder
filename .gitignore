@@ -145,3 +145,15 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Python files
+# Ignore local virtual environments
+.venv/
+venv/
+ENV/
+
+# Ignore Python compiled bytecode caches recursively
+Pyend/__pycache__
+*.pyc
+*.pyo
+*.pyd
