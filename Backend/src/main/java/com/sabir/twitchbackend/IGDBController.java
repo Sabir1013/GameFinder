@@ -2,6 +2,7 @@ package com.sabir.twitchbackend;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,9 @@ public class IGDBController {
     private final GameImporter importer;
     private final GameRepository repository;
 
+    @Value("${app.populate-database}")
+    private boolean populate;
+
     public IGDBController(IGDBService requester, GameImporter importer, GameRepository repository) {
         this.importer = importer;
         this.repository = repository;
@@ -35,9 +39,12 @@ public class IGDBController {
         return repository.findRandomGames();
     }
 
-    @GetMapping("/test-import")
-    public void testImport() {
-        importer.importAllGames();
-        System.out.println("Done!");
+    @GetMapping("/populate")
+    public void populateDatabase() {
+        if (!populate) {
+            return;
+        } else {
+            importer.importAllGames();
+        }
     }
 }

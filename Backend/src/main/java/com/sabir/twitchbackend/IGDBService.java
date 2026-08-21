@@ -1,11 +1,8 @@
 package com.sabir.twitchbackend;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,9 +15,6 @@ public class IGDBService {
     private final AuthService twitchService;
     private final RestTemplate APICaller;
     private final String endpoint;
-
-    private static final int MAX_GAMES = 263373;
-    private static final int LIMIT = 25;
 
     public IGDBService(AuthService twitchService) {
         this.twitchService = twitchService;
@@ -43,27 +37,6 @@ public class IGDBService {
         headers.set("Accept", "application/json");
 
         return headers;
-    }
-
-    @Cacheable(value = "games", key = "#query + '-' + #page")
-    public String getGames(String query, int page) {
-        int offset = (page - 1) * LIMIT;
-
-        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; search \"%s\"; where game_type = 0 & cover.url != null; limit %d; offset %d;", query, LIMIT, offset);
-        HttpEntity<String> request = new HttpEntity<String>(body, getHeaders());
-        
-        String response = APICaller.exchange(endpoint, HttpMethod.POST, request, String.class).getBody();
-        return response;
-    }
-
-    public String getRandomGames() {
-        int offset = ThreadLocalRandom.current().nextInt((MAX_GAMES - LIMIT) + 1);
-
-        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; where game_type = 0 & cover.url != null; limit %d; offset %d;", 24, offset);
-        HttpEntity<String> request = new HttpEntity<String>(body, getHeaders());
-        
-        String response = APICaller.exchange(endpoint, HttpMethod.POST, request, String.class).getBody();
-        return response;
     }
 
     public String getGamesPage(int offset) {
