@@ -41,10 +41,10 @@ public class IGDBController {
 
     @GetMapping("/populate")
     public void populateDatabase() {
-        if (!populate) {
-            return;
-        } else {
+        if (populate) {
             importer.importAllGames();
+        } else {
+            return;
         }
     }
 }
