@@ -42,6 +42,9 @@ public class GameImporter {
 
             repository.saveAll(games);
 
+            igdbGames.clear();
+            games.clear();
+
             offset += 500;
 
             System.out.println(offset);
