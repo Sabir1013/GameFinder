@@ -1,5 +1,6 @@
 package com.sabir.twitchbackend.game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -32,13 +33,13 @@ public class GameImporter {
         while (true) {
             String json = igdbService.getGamesPage(offset);
 
-            List<IGDBGame> igdbGames = parser.parse(json);
+            List<IGDBGame> igdbGames = new ArrayList<>(parser.parse(json));
 
             if (igdbGames.isEmpty()) {
                 break;
             }
 
-            List<Game> games = mapper.convert(igdbGames);
+            List<Game> games = new ArrayList<>(mapper.convert(igdbGames));
 
             repository.saveAll(games);
 
