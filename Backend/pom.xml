@@ -9,7 +9,7 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.sabir</groupId>
-	<artifactId>twitchbackend</artifactId>
+	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
@@ -23,7 +23,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>26</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -64,11 +64,6 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.36</version>
 		</dependency>
-		<dependency>
-			<groupId>com.pgvector</groupId>
-			<artifactId>pgvector</artifactId>
-			<version>0.1.6</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -94,10 +89,11 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.15.0</version>
+				<version>2.0.2</version>
 				<configuration>
 					<workingDirectory>../Frontend</workingDirectory>
 					<nodeVersion>v20.19.0</nodeVersion>
+					<npmVersion>9.8.1</npmVersion>
 				</configuration>
 				<executions>
 					<execution>
