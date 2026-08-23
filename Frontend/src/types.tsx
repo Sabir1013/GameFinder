@@ -23,6 +23,7 @@ export type SearchContextType = {
     page: number;
     setPage: React.Dispatch<React.SetStateAction<number>>;
     hasNextPage: boolean;
+    randomize: () => void;
 };
 
 export type SavedGamesContextType = {

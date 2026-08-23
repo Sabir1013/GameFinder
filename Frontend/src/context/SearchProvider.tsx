@@ -9,24 +9,19 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     const [query, setQuery] = useState("");
     const controllerRef = useRef<AbortController | null>(null);
     const [page, setPage] = useState(1);
+    const [mode, setMode] = useState<"SEARCH" | "RANDOMIZE">("SEARCH");
     const location = useLocation();
 
-    const [prevLocation, setPrevLocation] = useState(location.pathname)
+    // Location change — clear everything when navigating away
+    const [prevLocation, setPrevLocation] = useState(location.pathname);
     if (location.pathname !== prevLocation) {
-        setPrevLocation(location.pathname)
+        setPrevLocation(location.pathname);
         setQuery("");
         setResults([]);
+        setMode("SEARCH");
     }
 
-    const [prevQuery, setPrevQuery] = useState(query);
-    if (query !== prevQuery) {
-        setPrevQuery(query);
-        setPage(1);
-        if (query.trim() === "") {
-            setResults([]);
-        }
-    }
-
+    // Fetch results
     const fetchData = useCallback(async (endpoint: string) => {
         if (controllerRef.current) controllerRef.current.abort();
         controllerRef.current = new AbortController();
@@ -43,25 +38,55 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
+    // Debounce raw query, switch to search mode when user types
     useEffect(() => {
-        const timeout = setTimeout(() => setDebouncedQuery(query), 300);
+        const timeout = setTimeout(() => {
+            setDebouncedQuery(query);
+            if (query.trim() !== "") {
+                setMode("SEARCH");
+            }
+        }, 300);
         return () => clearTimeout(timeout);
     }, [query]);
 
+    const [prevDebouncedQuery, setPrevDebouncedQuery] = useState(debouncedQuery);
+
+    if (debouncedQuery !== prevDebouncedQuery) {
+        setPrevDebouncedQuery(debouncedQuery);
+        setPage(1);
+
+        if (debouncedQuery.trim() === "") {
+            setResults([]);
+        }
+    }
+
+    // Main fetch effect
     useEffect(() => {
+        if (mode === "RANDOMIZE") {
+            fetchData(`/api/games/randomize`);
+            return;
+        }
+
         if (debouncedQuery.trim() === "") {
             controllerRef.current?.abort();
             return;
+        } else {
+            fetchData(`/api/games/search?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
         }
-        
-        fetchData(`/api/games/search?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
-    }, [fetchData, page, debouncedQuery]);
+    }, [fetchData, page, debouncedQuery, mode]);
+
+    // Randomize
+    const randomize = () => {
+        setMode("RANDOMIZE");
+        setQuery("");
+        setPage(1);
+    };
 
     const hasNextPage = results.length === 25;
     const displayedResults = results.slice(0, 24);
 
     return (
-        <SearchContext.Provider value={{ results, displayedResults, setResults, debouncedQuery, setDebouncedQuery, query, setQuery, fetchData, page, setPage, hasNextPage }}>
+        <SearchContext.Provider value={{ results, displayedResults, setResults, debouncedQuery, setDebouncedQuery, query, setQuery, fetchData, page, setPage, hasNextPage, randomize }}>
             {children}
         </SearchContext.Provider>
     );
