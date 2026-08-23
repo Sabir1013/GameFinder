@@ -24,6 +24,7 @@ export type SearchContextType = {
     setPage: React.Dispatch<React.SetStateAction<number>>;
     hasNextPage: boolean;
     randomize: () => void;
+    isLoading: boolean;
 };
 
 export type SavedGamesContextType = {

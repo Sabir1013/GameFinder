@@ -11,6 +11,7 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     const [page, setPage] = useState(1);
     const [mode, setMode] = useState<"SEARCH" | "RANDOMIZE">("SEARCH");
     const location = useLocation();
+    const [isLoading, setIsLoading] = useState(false);
 
     // Location change — clear everything when navigating away
     const [prevLocation, setPrevLocation] = useState(location.pathname);
@@ -23,8 +24,13 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
 
     // Fetch results
     const fetchData = useCallback(async (endpoint: string) => {
-        if (controllerRef.current) controllerRef.current.abort();
+        if (controllerRef.current) {
+            controllerRef.current?.abort();
+        }
+
         controllerRef.current = new AbortController();
+        setTimeout(() => setIsLoading(true), 0);
+
         try {
             const res = await fetch(endpoint, { signal: controllerRef.current.signal });
             const jres = await res.json();
@@ -35,6 +41,8 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
             }
         } catch (err) {
             if ((err as Error).name !== "AbortError") console.log(err);
+        } finally {
+            setIsLoading(false);
         }
     }, []);
 
@@ -86,7 +94,7 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     const displayedResults = results.slice(0, 24);
 
     return (
-        <SearchContext.Provider value={{ results, displayedResults, setResults, debouncedQuery, setDebouncedQuery, query, setQuery, fetchData, page, setPage, hasNextPage, randomize }}>
+        <SearchContext.Provider value={{ results, displayedResults, setResults, debouncedQuery, setDebouncedQuery, query, setQuery, fetchData, page, setPage, hasNextPage, randomize, isLoading }}>
             {children}
         </SearchContext.Provider>
     );
