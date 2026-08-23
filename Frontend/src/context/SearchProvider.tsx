@@ -49,12 +49,13 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     }, [query]);
 
     useEffect(() => {
-        if (query.trim() === "") {
+        if (debouncedQuery.trim() === "") {
+            controllerRef.current?.abort();
             return;
         }
         
         fetchData(`/api/games/search?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
-    }, [query, fetchData, page, debouncedQuery]);
+    }, [fetchData, page, debouncedQuery]);
 
     const hasNextPage = results.length === 25;
     const displayedResults = results.slice(0, 24);
