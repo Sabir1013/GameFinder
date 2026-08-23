@@ -1,14 +1,12 @@
 # Logs
 logs
-resources
+Backend/src/main/resources/*
+!Backend/src/main/resources/application.properties
 *.log
-*.properties
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
-Pyend/config.py
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -145,15 +143,3 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
-
-# Python files
-# Ignore local virtual environments
-.venv/
-venv/
-ENV/
-
-# Ignore Python compiled bytecode caches recursively
-Pyend/__pycache__
-*.pyc
-*.pyo
-*.pyd

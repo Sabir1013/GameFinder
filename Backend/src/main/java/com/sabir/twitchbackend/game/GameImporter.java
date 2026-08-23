@@ -34,6 +34,7 @@ public class GameImporter {
             String json = igdbService.getGamesPage(offset);
 
             List<IGDBGame> igdbGames = new ArrayList<>(parser.parse(json));
+            json = null;
 
             if (igdbGames.isEmpty()) {
                 break;
@@ -46,7 +47,7 @@ public class GameImporter {
             igdbGames.clear();
             games.clear();
 
-            offset += 500;
+            offset += 100;
 
             System.out.println(offset);
         }
