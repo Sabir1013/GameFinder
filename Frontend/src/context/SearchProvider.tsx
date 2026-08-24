@@ -12,6 +12,7 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     const [mode, setMode] = useState<"SEARCH" | "RANDOMIZE">("SEARCH");
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(false);
+    const cacheRef = useRef<Map<string, Game[]>>(new Map());
 
     // Location change — clear everything when navigating away
     const [prevLocation, setPrevLocation] = useState(location.pathname);
@@ -24,6 +25,11 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
 
     // Fetch results
     const fetchData = useCallback(async (endpoint: string) => {
+        if (cacheRef.current.has(endpoint)) {
+            setResults(cacheRef.current.get(endpoint)!);
+            return;
+        }
+
         if (controllerRef.current) {
             controllerRef.current?.abort();
         }
@@ -34,11 +40,10 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         try {
             const res = await fetch(endpoint, { signal: controllerRef.current.signal });
             const jres = await res.json();
-            if (Array.isArray(jres)) {
-                setResults(jres);
-            } else {
-                setResults(jres.content);
-            }
+            const data = Array.isArray(jres) ? jres : jres.content;
+            
+            cacheRef.current.set(endpoint, data);
+            setResults(data);
         } catch (err) {
             if ((err as Error).name !== "AbortError") console.log(err);
         } finally {
