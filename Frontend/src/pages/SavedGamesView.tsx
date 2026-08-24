@@ -4,11 +4,10 @@ import { useEffect } from "react";
 import { useSavedGames } from "../hooks/useSavedGames";
 
 export function SavedGamesView() {
-    //const { displayedGames, page, setPage, hasNextPage } = useFuzzyFilter();
     const {displayedGames, page, setPage, hasNextPage} = useSavedGames();
 
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        document.documentElement.scrollTop = 0;
     }, [page]);
 
     return (

@@ -5,11 +5,9 @@ import { Flex } from "@chakra-ui/react";
 
 export function Layout() {
     return (
-        
-                <Flex>
-                    <Sidebar/>
-                    <Outlet/>
-                </Flex>
-        
+            <Flex>
+                <Sidebar/>
+                <Outlet/>
+            </Flex>
     );
 }
