@@ -13,7 +13,6 @@ export function App() {
     <>
       <SavedGamesProvider>
         <SearchProvider>
-
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<FinderView />} />
@@ -21,7 +20,6 @@ export function App() {
               <Route path="/about" element={<AboutView />} />
             </Route>
           </Routes>
-      
         </SearchProvider>
       </SavedGamesProvider>
       <Toaster />
