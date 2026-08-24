@@ -13,6 +13,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Query( value = "SELECT * FROM games WHERE LOWER(name) LIKE '%' || LOWER(:query) || '%' ORDER BY LOWER(name) = LOWER(:query) DESC, rating DESC NULLS LAST", countQuery = "SELECT COUNT(*) FROM games WHERE LOWER(name) LIKE '%' || LOWER(:query) || '%'", nativeQuery = true)
     Page<Game> searchGames(String query, Pageable pageable);
 
-    @Query(value = "SELECT * FROM games ORDER BY RANDOM() LIMIT 24", nativeQuery = true)
+    @Query(value = "SELECT * FROM games TABLESAMPLE SYSTEM(1) LIMIT 24", nativeQuery = true)
     List<Game> findRandomGames();
 }

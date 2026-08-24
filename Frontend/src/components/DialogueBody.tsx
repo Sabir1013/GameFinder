@@ -42,7 +42,7 @@ export function DialogueBody({game} : {game : Game}) {
                                 <LuChevronLeft/>
                             </IconButton>
                         </Carousel.PrevTrigger>
-                        <Carousel.IndicatorGroup overflow="scroll">
+                        <Carousel.IndicatorGroup overflow="auto">
                             {
                                 screenshots.map(
                                     (screenshot, index) =>
