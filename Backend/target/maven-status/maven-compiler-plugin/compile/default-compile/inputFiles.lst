@@ -1,0 +1,14 @@
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/AuthService.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/GameRepository.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/GameSearchResult.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/IGDBController.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/IGDBService.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/Main.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/SearchAbortionHandler.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/TwitchConfig.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/game/Game.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/game/GameImporter.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/game/IGDBGame.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/game/IGDBMapper.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/game/IGDBParser.java
+/Users/sabirmtarique/Coding/Game Finder/Backend/src/main/java/com/sabir/twitchbackend/game/Screenshot.java
