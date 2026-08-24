@@ -68,6 +68,16 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         }
     }
 
+    const [randomizeTrigger, setRandomizeTrigger] = useState(0);
+
+    // Randomize
+    const randomize = () => {
+        setMode("RANDOMIZE");
+        setQuery("");
+        setPage(1);
+        setRandomizeTrigger(t => t + 1);
+    };
+
     // Main fetch effect
     useEffect(() => {
         if (mode === "RANDOMIZE") {
@@ -81,14 +91,7 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         } else {
             fetchData(`/api/games/search?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
         }
-    }, [fetchData, page, debouncedQuery, mode]);
-
-    // Randomize
-    const randomize = () => {
-        setMode("RANDOMIZE");
-        setQuery("");
-        setPage(1);
-    };
+    }, [fetchData, page, debouncedQuery, mode, randomizeTrigger]);
 
     const hasNextPage = results.length === 25;
     const displayedResults = results.slice(0, 24);
