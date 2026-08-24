@@ -41,8 +41,11 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
             const res = await fetch(endpoint, { signal: controllerRef.current.signal });
             const jres = await res.json();
             const data = Array.isArray(jres) ? jres : jres.content;
+
+            if (endpoint !== `/api/games/randomize`) {
+                cacheRef.current.set(endpoint, data);
+            } 
             
-            cacheRef.current.set(endpoint, data);
             setResults(data);
         } catch (err) {
             if ((err as Error).name !== "AbortError") console.log(err);
