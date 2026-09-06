@@ -25,7 +25,7 @@ export function DialogueBody({game} : {game : Game}) {
                 </List.Root>                                                    
             </VStack>
             {screenshots.length > 0 && (                                  
-                <Carousel.Root slideCount={game.screenshots.length} ml="auto" maxW="500px" loop>
+                <Carousel.Root slideCount={game.screenshots.length} ml="auto" w={{base: "100%", md: "500px" }} maxW="500px" loop>
                     <Carousel.ItemGroup>
                         {
                             screenshots.map(
