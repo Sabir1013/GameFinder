@@ -78,7 +78,7 @@ export function Sidebar() {
         <List.Root mt="auto" mb="auto" gap="2" fontFamily="IBM Plex Mono">
           <List.Item>
             <Link asChild>
-              <RouterLink to="/" onClick={() => { setPage(1); setIsOpen(false); }}>Finder</RouterLink>
+              <RouterLink to="/" onClick={() => { setPage(1) }}>Finder</RouterLink>
             </Link>
           </List.Item>
           <List.Item>
