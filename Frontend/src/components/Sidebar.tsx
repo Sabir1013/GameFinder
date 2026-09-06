@@ -17,7 +17,7 @@ export function Sidebar() {
   const location = useLocation();
   const isSavedPage = location.pathname === "/saved";
   const currentQuery = isSavedPage ? savedQuery : query;
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const inputEndElem = currentQuery ? (
     <CloseButton
