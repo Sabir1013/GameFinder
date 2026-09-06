@@ -43,6 +43,7 @@ public class IGDBController {
     public void populateDatabase() {
         if (populate) {
             importer.importAllGames();
+            System.out.println("Finished");
         } else {
             return;
         }

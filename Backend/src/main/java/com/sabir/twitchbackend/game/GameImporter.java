@@ -47,7 +47,7 @@ public class GameImporter {
             igdbGames.clear();
             games.clear();
 
-            offset += 100;
+            offset += 500;
 
             System.out.println(offset);
         }

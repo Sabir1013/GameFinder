@@ -40,7 +40,7 @@ public class IGDBService {
     }
 
     public String getGamesPage(int offset) {
-        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; where game_type = 0 & cover.url != null; limit 100; offset %d;", offset);
+        String body = String.format("fields name, first_release_date, screenshots.url, game_type, cover.url, rating, summary, storyline; where game_type = 0 & cover.url != null; limit 500; offset %d;", offset);
         HttpEntity<String> request = new HttpEntity<String>(body, getHeaders());
 
         String response = APICaller.exchange(endpoint, HttpMethod.POST, request, String.class).getBody();
