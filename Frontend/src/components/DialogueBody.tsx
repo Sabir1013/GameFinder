@@ -55,8 +55,8 @@ export function DialogueBody({ game }: { game: Game }) {
                         {
                             screenshots.map(
                                 (screenshot, index) =>
-                                    <Carousel.Item key={index} index={index}  h="full" w="full" justifyContent="center">
-                                        <Image  h="full" w="full" loading="eager" decoding="async" src={"https:" + screenshot.url.replace("t_thumb", "t_1080p").replace(".jpg", ".webp")} objectFit="cover"/>
+                                    <Carousel.Item key={index} index={index}  h="full" w="full" justifyContent="center" overflow="hidden">
+                                        <Image  h="full" w="full" loading="eager" decoding="async" src={"https:" + screenshot.url.replace("t_thumb", "t_1080p").replace(".jpg", ".webp")} objectFit="contain"/>
                                     </Carousel.Item>
                             )
                         }

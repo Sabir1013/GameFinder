@@ -71,7 +71,7 @@ export function Sidebar() {
         <Text as="h1" mt="10" fontWeight="bold" fontSize="2xl" textShadow="0px 0px 5px teal, 0px 0px 10px teal, 0px 0px 15px teal" fontFamily="IBM Plex Mono">Game Finder</Text>
         <Flex direction="row" justifyContent="center" alignItems="center" mt="10" pr="5" pl="5" gap="2">
           <InputGroup startElement={<LuSearch />} endElement={inputEndElem}>
-            <Input placeholder="Search games" value={currentQuery} onChange={e => isSavedPage ? setSavedQuery(e.target.value) : setQuery(e.target.value)} borderRadius="full" name="queryBox" autoComplete="off" fontFamily="IBM Plex Sans Variable" fontSize="16px" disabled={location.pathname === "/about"} />
+            <Input placeholder="Search games" value={currentQuery} onChange={e => isSavedPage ? setSavedQuery(e.target.value) : setQuery(e.target.value)} borderRadius="full" name="queryBox" autoComplete="off" fontFamily="IBM Plex Sans Variable" fontSize="16px" disabled={location.pathname === "/about"} spellCheck="false"/>
           </InputGroup>
           <IconButton disabled={location.pathname != "/"} size="xs" bg="#619b8a" _hover={{ bg: "#72ab9b" }} onClick={() => randomize()}><FaRandom /></IconButton>
         </Flex>
