@@ -1,4 +1,4 @@
-import { Box, CloseButton, Flex, IconButton, List, Text } from "@chakra-ui/react";
+import { Box, CloseButton, Flex, HStack, IconButton, List, Switch, Text } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react/input";
 import { InputGroup } from "@chakra-ui/react/input-group";
 import { LuMenu, LuSearch, LuX } from "react-icons/lu";
@@ -12,7 +12,7 @@ import { useSavedGames } from "../hooks/useSavedGames";
 import { useEffect, useState } from "react";
 
 export function Sidebar() {
-  const { query, setQuery, setResults, randomize } = useSearch();
+  const { query, setQuery, setResults, randomize, isFiltered, toggleFilter } = useSearch();
   const { setSavedQuery, savedQuery, setPage } = useSavedGames();
   const location = useLocation();
   const isSavedPage = location.pathname === "/saved";
@@ -69,16 +69,26 @@ export function Sidebar() {
       }
       <Flex as="aside" position="fixed" top={0} zIndex="docked" w="300px" bgImage="radial-gradient(circle at center, #001427, #1A202C)" direction="column" textAlign="center" minH="100dvh" borderRight="1px solid #619b8a" flexShrink={0} boxShadow="inset -20px 0 40px #00000066" transform={{ base: isOpen ? "translateX(0)" : "translateX(-100%)", md: "translateX(0)" }} transition="transform 0.25s ease">
         <Text as="h1" mt="10" fontWeight="bold" fontSize="2xl" textShadow="0px 0px 5px teal, 0px 0px 10px teal, 0px 0px 15px teal" fontFamily="IBM Plex Mono">Game Finder</Text>
-        <Flex direction="row" justifyContent="center" alignItems="center" mt="10" pr="5" pl="5">
-          <InputGroup startElement={<LuSearch />} endElement={inputEndElem} mr="5">
+        <Flex direction="row" justifyContent="center" alignItems="center" mt="10" pr="5" pl="5" gap="2">
+          <InputGroup startElement={<LuSearch />} endElement={inputEndElem}>
             <Input placeholder="Search games" value={currentQuery} onChange={e => isSavedPage ? setSavedQuery(e.target.value) : setQuery(e.target.value)} borderRadius="full" name="queryBox" autoComplete="off" fontFamily="IBM Plex Sans Variable" fontSize="16px" disabled={location.pathname === "/about"} />
           </InputGroup>
           <IconButton disabled={location.pathname != "/"} size="xs" bg="#619b8a" _hover={{ bg: "#72ab9b" }} onClick={() => randomize()}><FaRandom /></IconButton>
         </Flex>
+        <HStack mt="3" pl="2" pr="2" visibility={location.pathname === "/" ? "visible" : "hidden"}>
+          <Text fontFamily="IBM Plex Mono" fontSize="xs" ml="5">{isFiltered ? "Include Updates/DLCs?" : "Including Updates/DLCs!"}</Text>
+          <Switch.Root checked={!isFiltered} onCheckedChange={(e) => toggleFilter(!e.checked)} ml="auto" colorPalette="purple">
+            <Switch.HiddenInput/>
+            <Switch.Control>
+              <Switch.Thumb/>
+            </Switch.Control>
+            <Switch.Label/>
+          </Switch.Root>
+        </HStack>
         <List.Root mt="auto" mb="auto" gap="2" fontFamily="IBM Plex Mono">
           <List.Item>
             <Link asChild>
-              <RouterLink to="/" onClick={() => {setPage(1)}}>Finder</RouterLink>
+              <RouterLink to="/" onClick={() => { setPage(1) }}>Finder</RouterLink>
             </Link>
           </List.Item>
           <List.Item>

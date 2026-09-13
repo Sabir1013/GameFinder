@@ -18,7 +18,7 @@ export function AboutView() {
                 <Text fontSize={{ base: "sm", md: "2xl" }} fontFamily="IBM Plex Sans Variable">Welcome to the <Strong>Game Finder</Strong>! Here, you can search for your favorite games or game franchises for some simple information.</Text>
             </Flex>
             <Flex border="1px solid #619b8a" w={{ base: "100%", md: "1000px" }} maxW="1000px" p="5">
-                <Text fontSize={{ base: "sm", md: "2xl" }} fontFamily="IBM Plex Sans Variable">In the <Strong>Finder Tab</Strong>, you can either search or click the randomize button for a list of 24 random games.</Text>
+                <Text fontSize={{ base: "sm", md: "2xl" }} fontFamily="IBM Plex Sans Variable">In the <Strong>Finder Tab</Strong>, you can either search or click the randomize button for a list of 24 random games. Toggle the switch to include updates and DLCs in the results.</Text>
             </Flex>
             <Flex border="1px solid #619b8a" w={{ base: "100%", md: "1000px" }} maxW="1000px" p="5">
                 <Text fontSize={{ base: "sm", md: "2xl" }} fontFamily="IBM Plex Sans Variable">You can <Strong>save</Strong> anything you like by clicking the Save button in the game card's dialog. View these games in the <Strong>Saved Tab</Strong>.</Text>

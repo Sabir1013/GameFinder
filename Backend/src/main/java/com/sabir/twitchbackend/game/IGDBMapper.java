@@ -2,6 +2,7 @@ package com.sabir.twitchbackend.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -10,14 +11,26 @@ public class IGDBMapper {
     public Game convert(IGDBGame gameToConvert) {
         Game game = new Game();
 
+        // Null checks for parent components for DLCs and expansions
+        String parentName = Optional.ofNullable(gameToConvert.getParentGame())
+            .map(ParentGame::getName)
+            .orElse(null);
+
+        Long parentId = Optional.ofNullable(gameToConvert.getParentGame())
+            .map(ParentGame::getId)
+            .orElse(null);
+
         game = new Game(
             gameToConvert.getId(),
             gameToConvert.getName(),
             gameToConvert.getFirstReleaseDate(),
             gameToConvert.getRating(),
             gameToConvert.getCover().getUrl(),
+            parentName,
+            parentId,
             gameToConvert.getSummary(),
             gameToConvert.getStoryline(),
+            gameToConvert.getGameType(),
             new ArrayList<>()
         );
 

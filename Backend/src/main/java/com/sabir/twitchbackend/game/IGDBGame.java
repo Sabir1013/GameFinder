@@ -21,6 +21,12 @@ public class IGDBGame {
     private Double rating;
     private String summary;
     private String storyline;
+    
+    @JsonProperty("game_type")
+    private Integer gameType;
+
+    @JsonProperty("parent_game")
+    private ParentGame parentGame;
 
     private Cover cover;
     private List<IGBDScreenshot> screenshots;
@@ -38,4 +44,12 @@ class Cover {
 @NoArgsConstructor
 class IGBDScreenshot {
     private String url;
+}
+
+@Getter
+@Setter
+@NoArgsConstructor
+class ParentGame {
+    private Long id;
+    private String name;
 }

@@ -6,6 +6,9 @@ export type Game = {
     releaseDate: number;
     rating: number;
     coverUrl: string;
+    gameType: number;
+    parentGame: string;
+    parentGameId: number;
     screenshots: {
         url: string;
     }[]
@@ -25,6 +28,8 @@ export type SearchContextType = {
     hasNextPage: boolean;
     randomize: () => void;
     isLoading: boolean;
+    isFiltered: boolean;
+    toggleFilter: (filtered: boolean) => void;
 };
 
 export type SavedGamesContextType = {

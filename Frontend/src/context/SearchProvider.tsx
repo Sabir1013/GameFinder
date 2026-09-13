@@ -13,6 +13,9 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(false);
     const cacheRef = useRef<Map<string, Game[]>>(new Map());
+    const [isFiltered, setIsFiltered] = useState(true);
+    const [randomizeTrigger, setRandomizeTrigger] = useState(0);
+    const [prevDebouncedQuery, setPrevDebouncedQuery] = useState(debouncedQuery);
 
     // Location change — clear everything when navigating away
     const [prevLocation, setPrevLocation] = useState(location.pathname);
@@ -22,6 +25,19 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         setResults([]);
         setMode("SEARCH");
     }
+
+    const toggleFilter = (filtered: boolean) => {
+        setIsFiltered(filtered);
+        setPage(1);
+        setMode("SEARCH");
+
+        if (debouncedQuery.trim() === "") return;
+
+        const endpoint = filtered
+            ? `/api/games/filter?query=${encodeURIComponent(debouncedQuery)}&page=1`
+            : `/api/games/search?query=${encodeURIComponent(debouncedQuery)}&page=1`;
+        fetchData(endpoint);
+    };
 
     // Fetch results
     const fetchData = useCallback(async (endpoint: string) => {
@@ -44,8 +60,8 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
 
             if (endpoint !== `/api/games/randomize`) {
                 cacheRef.current.set(endpoint, data);
-            } 
-            
+            }
+
             setResults(data);
         } catch (err) {
             if ((err as Error).name !== "AbortError") console.log(err);
@@ -65,8 +81,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
         return () => clearTimeout(timeout);
     }, [query]);
 
-    const [prevDebouncedQuery, setPrevDebouncedQuery] = useState(debouncedQuery);
-
     if (debouncedQuery !== prevDebouncedQuery) {
         setPrevDebouncedQuery(debouncedQuery);
         setPage(1);
@@ -75,8 +89,6 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
             setResults([]);
         }
     }
-
-    const [randomizeTrigger, setRandomizeTrigger] = useState(0);
 
     // Randomize
     const randomize = () => {
@@ -97,15 +109,19 @@ export function SearchProvider({ children }: { children: React.ReactNode }) {
             controllerRef.current?.abort();
             return;
         } else {
-            fetchData(`/api/games/search?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
+            if (isFiltered) {
+                fetchData(`/api/games/filter?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
+            } else {
+                fetchData(`/api/games/search?query=${encodeURIComponent(debouncedQuery)}&page=${page}`);
+            }
         }
-    }, [fetchData, page, debouncedQuery, mode, randomizeTrigger]);
+    }, [fetchData, page, debouncedQuery, mode, randomizeTrigger, isFiltered]);
 
     const hasNextPage = results.length === 25;
     const displayedResults = results.slice(0, 24);
 
     return (
-        <SearchContext.Provider value={{ results, displayedResults, setResults, debouncedQuery, setDebouncedQuery, query, setQuery, fetchData, page, setPage, hasNextPage, randomize, isLoading }}>
+        <SearchContext.Provider value={{ results, displayedResults, setResults, debouncedQuery, setDebouncedQuery, query, setQuery, fetchData, page, setPage, hasNextPage, randomize, isLoading, isFiltered, toggleFilter }}>
             {children}
         </SearchContext.Provider>
     );

@@ -27,11 +27,16 @@ public class Game {
     private Long releaseDate;
     private Double rating;
     private String coverUrl;
-
+    
+    private String parentGame;
+    private Long parentGameId;
+    
     @Column(columnDefinition = "TEXT") 
     private String summary;
     @Column(columnDefinition = "TEXT")
     private String storyline;
+
+    private Integer gameType;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<Screenshot> screenshots;
