@@ -20,7 +20,7 @@ public class IGDBController {
     private final GameImporter importer;
     private final GameRepository repository;
 
-    @Value("${app.populate-database}")
+    @Value("${spring.populate.database}")
     private boolean populate;
 
     public IGDBController(IGDBService requester, GameImporter importer, GameRepository repository) {
