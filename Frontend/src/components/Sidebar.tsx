@@ -102,7 +102,7 @@ export function Sidebar() {
             </Link>
           </List.Item>
         </List.Root>
-        <Text as="h1" mt="auto" mb="5" fontFamily="IBM Plex Mono">© 2026 Sabir Tarique</Text>
+        <Text as="h1" mt="auto" mb="5" fontFamily="IBM Plex Mono">© 2026 <Link href="https://www.sabirtarique.me" target="_blank" rel="noopener noreferrer">Sabir Tarique</Link></Text>
       </Flex>
     </>
   );
